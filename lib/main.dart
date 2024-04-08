@@ -44,15 +44,17 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           children: [
-            SearchBar(
-              onChanged: (context) => {
-                if(searchbar)
-              },
-              controller: _ctrSearch,
-            )
+            TextField(decoration: InputDecoration(hintText: "Cocktail Name"),),
+            SizedBox(height: 10,),
+            ElevatedButton(onPressed: () { searchCocktails(); },
+            child: Text("Search"),)
           ],
         ),
       ),
     );
+  }
+
+  void searchCocktails() {
+
   }
 }

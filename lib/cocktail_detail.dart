@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: TheCocktail(cocktail: Cocktail("12", "name", "category", true, "glass", "instruction", "description", "thumbnail"),),
+      home: TheCocktail(cocktail: Cocktail("12", "name", null, "category", true, "glass", "instruction", [], [], "thumbnail"),),
     );
   }
 }

@@ -7,6 +7,7 @@ import 'package:language_picker/language_picker_dropdown_controller.dart';
 import 'package:language_picker/languages.dart';
 import 'package:http/http.dart' as http;
 import 'cocktail.dart';
+import 'cocktail_detail.dart';
 
 void main() {
   runApp(const MyApp());
@@ -43,7 +44,8 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController _ctrSearch = TextEditingController();
   List<Cocktail> cocktails = [];
 
-  LanguagePickerDropdownController _ctrLanguage = LanguagePickerDropdownController(Languages.english);
+  String selectedLanguage = "EN";
+  List<String> languages = ["EN", "IT", "ES", "DE", "FR"];
 
   @override
   Widget build(BuildContext context) {
@@ -59,10 +61,53 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(height: 10,),
             ElevatedButton(onPressed: () { searchCocktails(); }, child: Text("Search"),),
             SizedBox(height: 100,),
-            LanguagePickerDropdown(languages: [Languages.english, Languages.italian, Languages.spanish, Languages.german, Languages.french], controller: _ctrLanguage,)
-          ],
+            Container(child:
+              ListView.builder(
+                itemCount: cocktails.length,
+                itemBuilder: (BuildContext context, int index) => buildCard(context, index),
+                shrinkWrap: true,
+              ),
+              constraints: BoxConstraints(maxWidth: 1000),
+            ),
+            SizedBox(height: 100,),
+            Container(child:
+            DropdownButton(
+              value: selectedLanguage,
+              items: languages.map((String language) {
+                return DropdownMenuItem(
+                  value: language,
+                  child: Text(language),
+                );
+              }).toList(),
+              onChanged: (String? newValue) {
+                setState(() {
+                  selectedLanguage = newValue!;
+                });
+              },
+            ),
+              constraints: BoxConstraints(maxWidth: 300),
+            )
+              ],
         ),
       ),
+    );
+  }
+
+  Widget buildCard(BuildContext context, int index){
+    return Container(
+      child: GestureDetector(child:
+        Card(
+          child: Column(
+            children: [
+              Text(cocktails[index].name, style: TextStyle(fontWeight: FontWeight.bold),),
+              Text(cocktails[index].category!),
+            ],
+          ),
+        ),
+        onTap: () => {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => TheCocktail(cocktail: cocktails[index])))
+        },
+      )
     );
   }
 
@@ -76,10 +121,29 @@ class _MyHomePageState extends State<MyHomePage> {
       final cocktailsData = json.decode(result.body);
       final cocktailsDataItem = cocktailsData['drinks'];
 
-      List<Cocktail> cocktails = cocktailsDataItem.map<Cocktail>((json) => Cocktail.fromJson(json, _ctrLanguage.value.isoCode)).toList();
+      List<Cocktail> cocktails = cocktailsDataItem.map<Cocktail>((json) =>
+          Cocktail.fromJson(json, selectedLanguage)).toList();
       setState(() {
         this.cocktails = cocktails;
       });
     });
   }
 }
+
+/*
+TAGS:
+Container(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5), // Adjust padding as needed
+          decoration: BoxDecoration(
+            color: Colors.orange, // Background color of the tag
+            borderRadius: BorderRadius.circular(25), // Adjust for more or less rounded corners
+          ),
+          child: Text(
+            '${this.cocktails[index].tags![0]}',
+            style: TextStyle(
+              color: Colors.white, // Text color
+              fontSize: 10, // Adjust text size as needed
+            ),
+          ),
+        )
+ */

@@ -41,7 +41,12 @@ class _TheCocktail extends State<TheCocktail> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Cocktail Detail"),
       ),
-      body: null,
+      body: Column(
+        children: [
+          Text("Nome: ${widget.cocktail.name}"),
+          Text("Desc: ${widget.cocktail.instructions}")
+        ],
+      ),
     );
   }
 }

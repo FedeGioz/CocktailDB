@@ -14,25 +14,25 @@ class Cocktail {
   Cocktail(this._id, this._name, this._tags, this._category, this._isAlcoholic,
       this._glassType, this._instructions, this._ingredients, this._measures, this._thumbnail);
 
-  Cocktail.fromJson(Map<String, dynamic> json, String language){
-    _id = json['idDrink'];
-    _name = json['strDrink'];
-    String tags = json['strTags'];
-    _tags = tags.split(",");
-    _category = json['strCategory'];
-    if(json['strAlcoholic'] == "Yes") _isAlcoholic = true;
-    _glassType = json['strGlass'];
-    _instructions = json['strInstructions${language.toUpperCase()}'] ?? json['strInstructions'];
+  Cocktail.fromJson(Map<String, dynamic> json, String language) {
+    _id = json['idDrink'] ?? '';
+    _name = json['strDrink'] ?? '';
 
-    for(int i=0; i<=15; i++){
-      if(json['strIngredient$i'] != null){
-        _ingredients.add(json['strIngredient$i']);
-      }
-      if(json['strMeasure$i'] != null) {
-        _measures.add(json['strMeasure$i']);
-      }
-      else {
-        _measures.add("q.b.");
+    if (json['strTags'] != null) {
+      // as String per castarla a stringa --> rimozione null value
+      _tags = (json['strTags'] as String).split(",");
+    }
+
+    _category = json['strCategory'];
+    if(json['strAlcoholic'] == "Alcoholic") _isAlcoholic = true;
+    _glassType = json['strGlass'];
+    _instructions = json['strInstructions$language'] ?? json['strInstructions'];
+
+    for (int i = 0; i <= 15; i++) {
+      final ingredient = json['strIngredient$i'];
+      if (ingredient != null) {
+        _ingredients.add(ingredient);
+        _measures.add(json['strMeasure$i'] ?? "q.b.");
       }
     }
 
@@ -91,5 +91,11 @@ class Cocktail {
 
   set ingredients(List<String> value) {
     _ingredients = value;
+  }
+
+  List<String> get measures => _measures;
+
+  set measures(List<String> value) {
+    _measures = value;
   }
 }

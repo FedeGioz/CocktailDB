@@ -2,15 +2,41 @@ class Cocktail {
 
   String _id = "";
   String _name = "";
+  List<String>? _tags;
   String? _category;
   bool _isAlcoholic = false;
   String? _glassType;
-  String? _instruction;
-  String? _description;
+  String? _instructions;
+  List<String> _ingredients = [];
+  List<String> _measures = [];
   String? _thumbnail;
 
-  Cocktail(this._id, this._name, this._category, this._isAlcoholic,
-      this._glassType, this._instruction, this._description, this._thumbnail);
+  Cocktail(this._id, this._name, this._tags, this._category, this._isAlcoholic,
+      this._glassType, this._instructions, this._ingredients, this._measures, this._thumbnail);
+
+  Cocktail.fromJson(Map<String, dynamic> json, String language){
+    _id = json['idDrink'];
+    _name = json['strDrink'];
+    _tags = json['strTags'].split(',');
+    _category = json['strCategory'];
+    if(json['strAlcoholic'] == "Yes") _isAlcoholic = true;
+    _glassType = json['strGlass'];
+    _instructions = json['strInstructions${language.toUpperCase()}'] ?? json['strInstructions'];
+
+    for(int i=0; i<=15; i++){
+      if(json['strIngredient$i'] != null){
+        _ingredients.add(json['strIngredient$i']);
+      }
+      if(json['strMeasure$i'] != null) {
+        _measures.add(json['strMeasure$i']);
+      }
+      else {
+        _measures.add("q.b.");
+      }
+    }
+
+    _thumbnail = json['strDrinkThumb'];
+  }
 
   String? get thumbnail => _thumbnail;
 
@@ -18,16 +44,10 @@ class Cocktail {
     _thumbnail = value;
   }
 
-  String? get description => _description;
+  String? get instructions => _instructions;
 
-  set description(String? value) {
-    _description = value;
-  }
-
-  String? get instruction => _instruction;
-
-  set instruction(String? value) {
-    _instruction = value;
+  set instructions(String? value) {
+    _instructions = value;
   }
 
   String? get glassType => _glassType;
@@ -54,9 +74,21 @@ class Cocktail {
     _name = value;
   }
 
+  List<String>? get tags => _tags;
+
+  set tags(List<String>? value) {
+    _tags = value;
+  }
+
   String get id => _id;
 
   set id(String value) {
     _id = value;
+  }
+
+  List<String> get ingredients => _ingredients;
+
+  set ingredients(List<String> value) {
+    _ingredients = value;
   }
 }

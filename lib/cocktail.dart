@@ -17,7 +17,8 @@ class Cocktail {
   Cocktail.fromJson(Map<String, dynamic> json, String language){
     _id = json['idDrink'];
     _name = json['strDrink'];
-    _tags = json['strTags'].split(',');
+    String tags = json['strTags'];
+    _tags = tags.split(",");
     _category = json['strCategory'];
     if(json['strAlcoholic'] == "Yes") _isAlcoholic = true;
     _glassType = json['strGlass'];

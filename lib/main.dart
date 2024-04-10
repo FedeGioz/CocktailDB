@@ -44,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           children: [
-            TextField(decoration: InputDecoration(hintText: "Cocktail Name", border: RoundedRectangleBorder(borderRadius: 10)),),
+            TextField(decoration: InputDecoration(hintText: "Cocktail Name", ),
             SizedBox(height: 10,),
             ElevatedButton(onPressed: () { searchCocktails(); },
             child: Text("Search"),)

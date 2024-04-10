@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'cocktail.dart';
 
 void main(){
   runApp(const MyApp());
@@ -17,7 +18,30 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: null,
+      home: TheCocktail(cocktail: Cocktail("12", "name", "category", true, "glass", "instruction", "description", "thumbnail"),),
+    );
+  }
+}
+
+class TheCocktail extends StatefulWidget{
+  const TheCocktail({super.key, required this.cocktail});
+
+  final Cocktail cocktail;
+
+  @override
+  State<TheCocktail> createState() => _TheCocktail();
+
+}
+
+class _TheCocktail extends State<TheCocktail> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: const Text("Cocktail Detail"),
+      ),
+      body: null,
     );
   }
 }

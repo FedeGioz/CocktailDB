@@ -11,13 +11,22 @@ import 'cocktail.dart';
 import 'cocktail_detail.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+
+  static _MyAppState of(BuildContext context) =>
+      context.findAncestorStateOfType<_MyAppState>()!;
+}
+
+class _MyAppState extends State<MyApp> {
+  ThemeMode _themeMode = ThemeMode.system;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,11 +39,18 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeData(
         brightness: Brightness.dark,
       ),
-      themeMode: ThemeMode.light,
+      themeMode: _themeMode,
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
+
+  void changeTheme(ThemeMode themeMode) {
+    setState(() {
+      _themeMode = themeMode;
+    });
+  }
 }
+
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -114,6 +130,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
                   setState(() {
                     _nightMode = value;
+                    if(_nightMode) {
+                      MyApp.of(context).changeTheme(ThemeMode.dark);
+                    } else {
+                      MyApp.of(context).changeTheme(ThemeMode.light);
+                    }
+
                   });
                 })
 

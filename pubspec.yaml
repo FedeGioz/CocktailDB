@@ -32,6 +32,7 @@ dependencies:
     sdk: flutter
   language_picker: any
   http: any
+  flutter_randomcolor: any
 
 
   # The following adds the Cupertino Icons font to your application.

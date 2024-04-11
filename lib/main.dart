@@ -82,6 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onChanged: (String? newValue) {
                 setState(() {
                   selectedLanguage = newValue!;
+                  searchCocktails();
                 });
               },
             ),

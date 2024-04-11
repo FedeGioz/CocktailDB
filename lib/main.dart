@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:language_picker/language_picker.dart';
@@ -24,7 +25,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        brightness: Brightness.light,
       ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+      ),
+      themeMode: ThemeMode.light,
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
@@ -41,11 +47,24 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+
+  bool _nightMode = false;
+
   TextEditingController _ctrSearch = TextEditingController();
   List<Cocktail> cocktails = [];
 
   String selectedLanguage = "EN";
   List<String> languages = ["EN", "IT", "ES", "DE", "FR"];
+
+  final MaterialStateProperty<Icon?> lightIcon =
+  MaterialStateProperty.resolveWith<Icon?>(
+        (Set<MaterialState> states) {
+      if (states.contains(MaterialState.selected)) {
+        return const Icon(Icons.nightlight);
+      }
+      return const Icon(Icons.sunny);
+    },
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +105,17 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
               constraints: BoxConstraints(maxWidth: 300),
-            )
+            ),
+            Switch(
+                thumbIcon: lightIcon,
+                value: _nightMode,
+                onChanged: (bool value) {
+
+                  setState(() {
+                    _nightMode = value;
+                  });
+                })
+
               ],
         ),
       ),

@@ -14,14 +14,27 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+
+  // Creazione di un metodo of()
+  // Riceve uno context di una classe stato
+  // Ritorna lo stato "antenato" più vicino del tipo indicato
+  // Questo metodo lo usiamo per accedere al metodo changeTheme() di _MyAppState da _MyHomePageState (due stati differenti)\
+  static _MyAppState of(BuildContext context) =>
+      context.findAncestorStateOfType<_MyAppState>()!;
+}
+
+class _MyAppState extends State<MyApp> {
+  ThemeMode _themeMode = ThemeMode.system;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'CocktailDB',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
@@ -30,11 +43,18 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeData(
         brightness: Brightness.dark,
       ),
-      themeMode: ThemeMode.light,
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      themeMode: _themeMode,
+      home: const MyHomePage(title: 'CocktailDB Home Page'),
     );
   }
+
+  void changeTheme(ThemeMode themeMode) {
+    setState(() {
+      _themeMode = themeMode;
+    });
+  }
 }
+
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -72,40 +92,47 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
+        actions: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 25, vertical: 0),
+            child: const Icon(Icons.settings),
+
+          )
+        ],
       ),
       body: Center(
         child: Column(
           children: [
-            TextField(decoration: InputDecoration(hintText: "Cocktail Name"), controller: _ctrSearch,),
-            SizedBox(height: 10,),
+            TextField(decoration: const InputDecoration(hintText: "Cocktail Name"), controller: _ctrSearch,),
+            const SizedBox(height: 10,),
             ElevatedButton(onPressed: () { searchCocktails(); }, child: Text("Search"),),
-            SizedBox(height: 100,),
-            Container(child:
-              ListView.builder(
+            const SizedBox(height: 100,),
+            Container(
+              constraints: const BoxConstraints(maxWidth: 1000),
+              child: ListView.builder(
                 itemCount: cocktails.length,
                 itemBuilder: (BuildContext context, int index) => buildCard(context, index),
                 shrinkWrap: true,
               ),
-              constraints: BoxConstraints(maxWidth: 1000),
             ),
-            SizedBox(height: 100,),
-            Container(child:
-            DropdownButton(
-              value: selectedLanguage,
-              items: languages.map((String language) {
-                return DropdownMenuItem(
-                  value: language,
-                  child: Text(language),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedLanguage = newValue!;
-                  searchCocktails();
-                });
-              },
-            ),
-              constraints: BoxConstraints(maxWidth: 300),
+            const SizedBox(height: 100,),
+            Container(
+              constraints: const BoxConstraints(maxWidth: 300),
+              child: DropdownButton(
+                value: selectedLanguage,
+                items: languages.map((String language) {
+                  return DropdownMenuItem(
+                    value: language,
+                    child: Text(language),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    selectedLanguage = newValue!;
+                    searchCocktails();
+                  });
+                },
+              ),
             ),
             Switch(
                 thumbIcon: lightIcon,
@@ -114,6 +141,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
                   setState(() {
                     _nightMode = value;
+                    if(_nightMode) {
+                      MyApp.of(context).changeTheme(ThemeMode.dark);
+                    } else {
+                      MyApp.of(context).changeTheme(ThemeMode.light);
+                    }
                   });
                 })
 
@@ -142,10 +174,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future searchCocktails() async {
-    const dominio = 'www.thecocktaildb.com';
+    const domain = 'www.thecocktaildb.com';
     const path = '/api/json/v1/1/search.php';
-    Map<String, dynamic> parametri = {'s': _ctrSearch.text};
-    Uri uri = Uri.https(dominio, path, parametri);
+    Map<String, dynamic> parameters = {'s': _ctrSearch.text};
+    Uri uri = Uri.https(domain, path, parameters);
     http.get(uri).then((result) {
 
       final cocktailsData = json.decode(result.body);

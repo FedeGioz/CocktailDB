@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_randomcolor/flutter_randomcolor.dart';
 import 'cocktail.dart';
 
@@ -49,21 +50,41 @@ class _TheCocktail extends State<TheCocktail> {
       body: Center(child: Column(
         children: [
           SizedBox(height: 50,),
-          CircleAvatar(
-            backgroundImage: NetworkImage(widget.cocktail.thumbnail!),
-            radius: 100,
+          Stack(
+            children: [
+              Positioned(
+                top: -20,
+                left: -20,
+                child: Image.network(
+                  widget.cocktail.isAlcoholic
+                      ? "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Red_circle_frame_transparent.svg/512px-Red_circle_frame_transparent.svg.png"
+                      : "https://upload.wikimedia.org/wikipedia/commons/1/11/Pan_Green_Circle.png",
+                  width: 240,
+                  height: 240,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              // CircleAvatar
+              CircleAvatar(
+                backgroundImage: NetworkImage(widget.cocktail.thumbnail!),
+                radius: 100,
+              ),
+            ],
           ),
           SizedBox(height: 20,),
           Row(children: generateTags(widget.cocktail), mainAxisAlignment: MainAxisAlignment.center,),
           SizedBox(height: 10,),
-          Text("Nome", style: TextStyle(fontWeight: FontWeight.bold),),
-          Text(widget.cocktail.name),
+          Text("Name", style: TextStyle(fontWeight: FontWeight.bold),),
+          SizedBox(height: 5,),
+          Text("${widget.cocktail.name} (${widget.cocktail.category})"),
           SizedBox(height: 10,),
           Text("Ingredients", style: TextStyle(fontWeight: FontWeight.bold),),
+          SizedBox(height: 5,),
           Text("• ${widget.cocktail.ingredients.join("\n• ")}", textAlign: TextAlign.center,),
           SizedBox(height: 10,),
           Text("Instructions", style: TextStyle(fontWeight: FontWeight.bold),),
-          Text(widget.cocktail.instructions!),
+          SizedBox(height: 5,),
+          Container(child: Text(widget.cocktail.instructions!, textAlign: TextAlign.center,), constraints: BoxConstraints(maxWidth: 650),),
         ],
       ),
     ));
@@ -73,23 +94,25 @@ class _TheCocktail extends State<TheCocktail> {
     List<dynamic> colors = [Colors.red, Colors.lightGreen, Colors.amberAccent, Colors.lightBlueAccent, Colors.orangeAccent];
     final _random = new Random();
     List<Widget> tags = [];
-    if(cocktail.tags != null){
+    if(cocktail.tags != null ){
       for(String tag in cocktail.tags!){
-        tags.add(Container(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5), // Adjust padding as needed
-          decoration: BoxDecoration(
-            color: colors[_random.nextInt(colors.length)], // Background color of the tag
-            borderRadius: BorderRadius.circular(25), // Adjust for more or less rounded corners
-          ),
-          child: Text(
-            tag,
-            style: TextStyle(
-              color: Colors.white, // Text color
-              fontSize: 10, // Adjust text size as needed
+        if(tags.length < 5){
+          tags.add(Container(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5), // Adjust padding as needed
+            decoration: BoxDecoration(
+              color: colors[_random.nextInt(colors.length)], // Background color of the tag
+              borderRadius: BorderRadius.circular(25), // Adjust for more or less rounded corners
             ),
-          ),
-        ));
-        tags.add(SizedBox(width: 5,));
+            child: Text(
+              tag,
+              style: TextStyle(
+                color: Colors.white, // Text color
+                fontSize: 10, // Adjust text size as needed
+              ),
+            ),
+          ));
+          tags.add(SizedBox(width: 5,));
+        }
       }
     }
     return tags;

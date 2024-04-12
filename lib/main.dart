@@ -94,15 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
         actions: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-            child: ElevatedButton(
-              child: const Icon(Icons.settings),
-              onPressed: () { print("pressed!"); },
-
-            ),
-          ),
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
               child: Switch(
                   thumbIcon: lightIcon,
                   value: _nightMode,
@@ -111,20 +103,40 @@ class _MyHomePageState extends State<MyHomePage> {
                     setState(() {
                       _nightMode = value;
                       if(_nightMode) {
-                        MyApp.of(context  ).changeTheme(ThemeMode.dark);
+                        MyApp.of(context).changeTheme(ThemeMode.dark);
                       } else {
                         MyApp.of(context).changeTheme(ThemeMode.light);
                       }
                     });
                   })
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+            child: DropdownButton(
+              value: selectedLanguage,
+              items: languages.map((String language) {
+                return DropdownMenuItem(
+                  value: language,
+                  child: Text(language),
+                );
+              }).toList(),
+              onChanged: (String? newValue) {
+                setState(() {
+                  selectedLanguage = newValue!;
+                  searchCocktails();
+                });
+              },
+            ),
           )
-
         ],
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            TextField(decoration: const InputDecoration(hintText: "Cocktail Name"), controller: _ctrSearch,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+              child: TextField(decoration: const InputDecoration(hintText: "Cocktail Name"), controller: _ctrSearch,),
+            ),
             const SizedBox(height: 10,),
             ElevatedButton(onPressed: () { searchCocktails(); }, child: const Text("Search"),),
             const SizedBox(height: 100,),
@@ -137,24 +149,6 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             const SizedBox(height: 100,),
-            Container(
-              constraints: const BoxConstraints(maxWidth: 300),
-              child: DropdownButton(
-                value: selectedLanguage,
-                items: languages.map((String language) {
-                  return DropdownMenuItem(
-                    value: language,
-                    child: Text(language),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selectedLanguage = newValue!;
-                    searchCocktails();
-                  });
-                },
-              ),
-            ),
           ],
         ),
       )

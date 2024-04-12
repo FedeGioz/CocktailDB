@@ -94,10 +94,31 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
         actions: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25, vertical: 0),
-            child: const Icon(Icons.settings),
+            padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+            child: ElevatedButton(
+              child: const Icon(Icons.settings),
+              onPressed: () { print("pressed!"); },
 
+            ),
+          ),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+              child: Switch(
+                  thumbIcon: lightIcon,
+                  value: _nightMode,
+                  onChanged: (bool value) {
+
+                    setState(() {
+                      _nightMode = value;
+                      if(_nightMode) {
+                        MyApp.of(context).changeTheme(ThemeMode.dark);
+                      } else {
+                        MyApp.of(context).changeTheme(ThemeMode.light);
+                      }
+                    });
+                  })
           )
+
         ],
       ),
       body: Center(
@@ -105,7 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             TextField(decoration: const InputDecoration(hintText: "Cocktail Name"), controller: _ctrSearch,),
             const SizedBox(height: 10,),
-            ElevatedButton(onPressed: () { searchCocktails(); }, child: Text("Search"),),
+            ElevatedButton(onPressed: () { searchCocktails(); }, child: const Text("Search"),),
             const SizedBox(height: 100,),
             Container(
               constraints: const BoxConstraints(maxWidth: 1000),
@@ -134,22 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
               ),
             ),
-            Switch(
-                thumbIcon: lightIcon,
-                value: _nightMode,
-                onChanged: (bool value) {
-
-                  setState(() {
-                    _nightMode = value;
-                    if(_nightMode) {
-                      MyApp.of(context).changeTheme(ThemeMode.dark);
-                    } else {
-                      MyApp.of(context).changeTheme(ThemeMode.light);
-                    }
-                  });
-                })
-
-              ],
+          ],
         ),
       ),
     );

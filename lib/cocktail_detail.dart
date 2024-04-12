@@ -52,22 +52,23 @@ class _TheCocktail extends State<TheCocktail> {
           SizedBox(height: 50,),
           Stack(
             children: [
+              CircleAvatar(
+                backgroundImage: NetworkImage(widget.cocktail.thumbnail!),
+                radius: 100,
+              ),
               Positioned(
-                top: -20,
-                left: -20,
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
                 child: Image.network(
                   widget.cocktail.isAlcoholic
-                      ? "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Red_circle_frame_transparent.svg/512px-Red_circle_frame_transparent.svg.png"
-                      : "https://upload.wikimedia.org/wikipedia/commons/1/11/Pan_Green_Circle.png",
+                      ? "https://i.ibb.co/9whJMfN/alcholic.png"
+                      : "https://i.ibb.co/48JQrNt/non-alcolholic.png",
                   width: 240,
                   height: 240,
                   fit: BoxFit.cover,
                 ),
-              ),
-              // CircleAvatar
-              CircleAvatar(
-                backgroundImage: NetworkImage(widget.cocktail.thumbnail!),
-                radius: 100,
               ),
             ],
           ),

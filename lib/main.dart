@@ -122,43 +122,41 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: [
-              TextField(decoration: const InputDecoration(hintText: "Cocktail Name"), controller: _ctrSearch,),
-              const SizedBox(height: 10,),
-              ElevatedButton(onPressed: () { searchCocktails(); }, child: const Text("Search"),),
-              const SizedBox(height: 100,),
-              Container(
-                constraints: const BoxConstraints(maxWidth: 1000),
-                child: ListView.builder(
-                  itemCount: cocktails.length,
-                  itemBuilder: (BuildContext context, int index) => buildCard(context, index),
-                  shrinkWrap: true,
-                ),
+        child: Column(
+          children: [
+            TextField(decoration: const InputDecoration(hintText: "Cocktail Name"), controller: _ctrSearch,),
+            const SizedBox(height: 10,),
+            ElevatedButton(onPressed: () { searchCocktails(); }, child: const Text("Search"),),
+            const SizedBox(height: 100,),
+            Container(
+              constraints: const BoxConstraints(maxWidth: 1000),
+              child: ListView.builder(
+                itemCount: cocktails.length,
+                itemBuilder: (BuildContext context, int index) => buildCard(context, index),
+                shrinkWrap: true,
               ),
-              const SizedBox(height: 100,),
-              Container(
-                constraints: const BoxConstraints(maxWidth: 300),
-                child: DropdownButton(
-                  value: selectedLanguage,
-                  items: languages.map((String language) {
-                    return DropdownMenuItem(
-                      value: language,
-                      child: Text(language),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedLanguage = newValue!;
-                      searchCocktails();
-                    });
-                  },
-                ),
+            ),
+            const SizedBox(height: 100,),
+            Container(
+              constraints: const BoxConstraints(maxWidth: 300),
+              child: DropdownButton(
+                value: selectedLanguage,
+                items: languages.map((String language) {
+                  return DropdownMenuItem(
+                    value: language,
+                    child: Text(language),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    selectedLanguage = newValue!;
+                    searchCocktails();
+                  });
+                },
               ),
-            ],
-          ),
-        )
+            ),
+          ],
+        ),
       )
     );
   }

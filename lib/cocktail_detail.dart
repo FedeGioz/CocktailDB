@@ -81,11 +81,12 @@ class _TheCocktail extends State<TheCocktail> {
           SizedBox(height: 10,),
           Text("Ingredients", style: TextStyle(fontWeight: FontWeight.bold),),
           SizedBox(height: 5,),
-          Text("• ${widget.cocktail.ingredients.join("\n• ")}", textAlign: TextAlign.center,),
+          buildIngredientsMeasuresList(),
           SizedBox(height: 10,),
           Text("Instructions", style: TextStyle(fontWeight: FontWeight.bold),),
           SizedBox(height: 5,),
           Container(child: Text(widget.cocktail.instructions!, textAlign: TextAlign.center,), constraints: BoxConstraints(maxWidth: 650),),
+          SizedBox(height: 10,),
         ],
       ),
     ));
@@ -117,6 +118,15 @@ class _TheCocktail extends State<TheCocktail> {
       }
     }
     return tags;
+  }
+
+  Widget buildIngredientsMeasuresList() {
+    String merged = "";
+    for(int i=0; i<widget.cocktail.ingredients.length; i++) {
+      merged += "• ${widget.cocktail.ingredients[i]} (${widget.cocktail.measures[i]})\n";
+    }
+
+    return Text(merged, textAlign: TextAlign.center,);
   }
 }
 

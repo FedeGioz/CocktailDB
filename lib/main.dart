@@ -121,8 +121,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
         ],
       ),
-      body: Center(
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Center(
           child: Column(
             children: [
               TextField(decoration: const InputDecoration(hintText: "Cocktail Name"), controller: _ctrSearch,),
@@ -159,7 +159,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         )
-      ),
+      )
     );
   }
 

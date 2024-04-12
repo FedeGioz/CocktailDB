@@ -87,6 +87,9 @@ class _TheCocktail extends State<TheCocktail> {
           SizedBox(height: 5,),
           Container(child: Text(widget.cocktail.instructions!, textAlign: TextAlign.center,), constraints: BoxConstraints(maxWidth: 650),),
           SizedBox(height: 10,),
+          Text("How to serve", style: TextStyle(fontWeight: FontWeight.bold),),
+          SizedBox(height: 5,),
+          Text("Serve in ${widget.cocktail.glassType}"),
         ],
       ),
     ));

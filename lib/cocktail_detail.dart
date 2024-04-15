@@ -1,9 +1,4 @@
-import 'dart:math';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_randomcolor/flutter_randomcolor.dart';
 import 'cocktail.dart';
 
 void main(){
@@ -14,7 +9,6 @@ void main(){
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -39,7 +33,6 @@ class TheCocktail extends StatefulWidget{
 }
 
 class _TheCocktail extends State<TheCocktail> {
-  Options options = Options(format: Format.rgb, colorType: ColorType.green);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,34 +88,6 @@ class _TheCocktail extends State<TheCocktail> {
     ));
   }
 
-  List<Widget> generateTags(Cocktail cocktail) {
-    List<dynamic> colors = [Colors.red, Colors.lightGreen, Colors.amberAccent, Colors.lightBlueAccent, Colors.orangeAccent];
-    final _random = new Random();
-    List<Widget> tags = [];
-    if(cocktail.tags != null ){
-      for(String tag in cocktail.tags!){
-        if(tags.length < 5){
-          tags.add(Container(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5), // Adjust padding as needed
-            decoration: BoxDecoration(
-              color: colors[_random.nextInt(colors.length)], // Background color of the tag
-              borderRadius: BorderRadius.circular(25), // Adjust for more or less rounded corners
-            ),
-            child: Text(
-              tag,
-              style: TextStyle(
-                color: Colors.white, // Text color
-                fontSize: 10, // Adjust text size as needed
-              ),
-            ),
-          ));
-          tags.add(SizedBox(width: 5,));
-        }
-      }
-    }
-    return tags;
-  }
-
   Widget buildIngredientsMeasuresList() {
     String merged = "";
     for(int i=0; i<widget.cocktail.ingredients.length; i++) {
@@ -131,5 +96,32 @@ class _TheCocktail extends State<TheCocktail> {
 
     return Text(merged, textAlign: TextAlign.center,);
   }
+}
+
+List<Widget> generateTags(Cocktail cocktail) {
+  List<dynamic> colors = [Colors.red, Colors.lightGreen, Colors.amberAccent, Colors.lightBlueAccent, Colors.orangeAccent];
+  List<Widget> tags = [];
+  if(cocktail.tags != null ){
+    for(String tag in cocktail.tags!){
+      if(tags.length < 5){
+        tags.add(Container(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          decoration: BoxDecoration(
+            color: colors[tag.length%colors.length],
+            borderRadius: BorderRadius.circular(25),
+          ),
+          child: Text(
+            tag,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 10,
+            ),
+          ),
+        ));
+        tags.add(SizedBox(width: 5,));
+      }
+    }
+  }
+  return tags;
 }
 

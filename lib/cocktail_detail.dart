@@ -40,7 +40,7 @@ class _TheCocktail extends State<TheCocktail> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Cocktail Detail"),
       ),
-      body: Center(child: Column(
+      body: SingleChildScrollView(child: Center(child: Column(
         children: [
           SizedBox(height: 50,),
           Stack(
@@ -85,7 +85,7 @@ class _TheCocktail extends State<TheCocktail> {
           Text("Serve in ${widget.cocktail.glassType}"),
         ],
       ),
-    ));
+    )));
   }
 
   Widget buildIngredientsMeasuresList() {

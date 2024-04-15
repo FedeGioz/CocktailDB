@@ -69,6 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
   bool _nightMode = false;
+  bool _hasSearched = false;
 
   TextEditingController _ctrSearch = TextEditingController();
   List<Cocktail> cocktails = [];
@@ -111,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   })
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
             child: DropdownButton(
               value: selectedLanguage,
               items: languages.map((String language) {
@@ -123,7 +124,9 @@ class _MyHomePageState extends State<MyHomePage> {
               onChanged: (String? newValue) {
                 setState(() {
                   selectedLanguage = newValue!;
-                  searchCocktails();
+                  if(_hasSearched) {
+                    searchCocktails();
+                  }
                 });
               },
             ),
@@ -138,7 +141,10 @@ class _MyHomePageState extends State<MyHomePage> {
               child: TextField(decoration: const InputDecoration(hintText: "Cocktail Name"), controller: _ctrSearch,),
             ),
             const SizedBox(height: 10,),
-            ElevatedButton(onPressed: () { searchCocktails(); }, child: const Text("Search"),),
+            ElevatedButton(onPressed: () {
+                searchCocktails();
+                _hasSearched = true;
+              }, child: const Text("Search"),),
             const SizedBox(height: 100,),
             Container(
               constraints: const BoxConstraints(maxWidth: 1000),

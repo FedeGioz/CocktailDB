@@ -1,8 +1,6 @@
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_randomcolor/flutter_randomcolor.dart';
 import 'cocktail.dart';
 
@@ -49,7 +47,7 @@ class _TheCocktail extends State<TheCocktail> {
       ),
       body: Center(child: Column(
         children: [
-          SizedBox(height: 50,),
+          const SizedBox(height: 50,),
           Stack(
             children: [
               CircleAvatar(
@@ -72,23 +70,23 @@ class _TheCocktail extends State<TheCocktail> {
               ),
             ],
           ),
-          SizedBox(height: 20,),
-          Row(children: generateTags(widget.cocktail), mainAxisAlignment: MainAxisAlignment.center,),
-          SizedBox(height: 10,),
-          Text("Name", style: TextStyle(fontWeight: FontWeight.bold),),
-          SizedBox(height: 5,),
+          const SizedBox(height: 20,),
+          Row(mainAxisAlignment: MainAxisAlignment.center,children: generateTags(widget.cocktail),),
+          const SizedBox(height: 10,),
+          const Text("Name", style: TextStyle(fontWeight: FontWeight.bold),),
+          const SizedBox(height: 5,),
           Text("${widget.cocktail.name} (${widget.cocktail.category})"),
-          SizedBox(height: 10,),
-          Text("Ingredients", style: TextStyle(fontWeight: FontWeight.bold),),
-          SizedBox(height: 5,),
+          const SizedBox(height: 10,),
+          const Text("Ingredients", style: TextStyle(fontWeight: FontWeight.bold),),
+          const SizedBox(height: 5,),
           buildIngredientsMeasuresList(),
-          SizedBox(height: 10,),
-          Text("Instructions", style: TextStyle(fontWeight: FontWeight.bold),),
-          SizedBox(height: 5,),
-          Container(child: Text(widget.cocktail.instructions!, textAlign: TextAlign.center,), constraints: BoxConstraints(maxWidth: 650),),
-          SizedBox(height: 10,),
-          Text("How to serve", style: TextStyle(fontWeight: FontWeight.bold),),
-          SizedBox(height: 5,),
+          const SizedBox(height: 10,),
+          const Text("Instructions", style: TextStyle(fontWeight: FontWeight.bold),),
+          const SizedBox(height: 5,),
+          Container(constraints: const BoxConstraints(maxWidth: 650),child: Text(widget.cocktail.instructions!, textAlign: TextAlign.center,),),
+          const SizedBox(height: 10,),
+          const Text("How to serve", style: TextStyle(fontWeight: FontWeight.bold),),
+          const SizedBox(height: 5,),
           Text("Serve in ${widget.cocktail.glassType}"),
         ],
       ),
@@ -97,26 +95,26 @@ class _TheCocktail extends State<TheCocktail> {
 
   List<Widget> generateTags(Cocktail cocktail) {
     List<dynamic> colors = [Colors.red, Colors.lightGreen, Colors.amberAccent, Colors.lightBlueAccent, Colors.orangeAccent];
-    final _random = new Random();
+    final _random = Random();
     List<Widget> tags = [];
     if(cocktail.tags != null ){
       for(String tag in cocktail.tags!){
         if(tags.length < 5){
           tags.add(Container(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5), // Adjust padding as needed
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5), // Adjust padding as needed
             decoration: BoxDecoration(
               color: colors[_random.nextInt(colors.length)], // Background color of the tag
               borderRadius: BorderRadius.circular(25), // Adjust for more or less rounded corners
             ),
             child: Text(
               tag,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white, // Text color
                 fontSize: 10, // Adjust text size as needed
               ),
             ),
           ));
-          tags.add(SizedBox(width: 5,));
+          tags.add(const SizedBox(width: 5,));
         }
       }
     }

@@ -1,11 +1,5 @@
 import 'dart:convert';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:language_picker/language_picker.dart';
-import 'package:language_picker/language_picker_dropdown.dart';
-import 'package:language_picker/language_picker_dropdown_controller.dart';
-import 'package:language_picker/languages.dart';
 import 'package:http/http.dart' as http;
 import 'cocktail.dart';
 import 'cocktail_detail.dart';
@@ -23,7 +17,7 @@ class MyApp extends StatefulWidget {
   // Creazione di un metodo of()
   // Riceve uno context di una classe stato
   // Ritorna lo stato "antenato" più vicino del tipo indicato
-  // Questo metodo lo usiamo per accedere al metodo changeTheme() di _MyAppState da _MyHomePageState (due stati differenti)\
+  // Questo metodo lo usiamo per accedere al metodo changeTheme() di _MyAppState da _MyHomePageState (due stati differenti)
   static _MyAppState of(BuildContext context) =>
       context.findAncestorStateOfType<_MyAppState>()!;
 }
@@ -162,22 +156,35 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget buildCard(BuildContext context, int index){
-    return Container(
-      child: GestureDetector(child:
-        Card(
-          child: Column(
-            children: [
-              Text(cocktails[index].name, style: TextStyle(fontWeight: FontWeight.bold),),
-              Text(cocktails[index].category!),
-            ],
-          ),
+  return Container(
+    child: GestureDetector(
+      child: Card(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(width: 30,),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(cocktails[index].name, style: TextStyle(fontWeight: FontWeight.bold),),
+                    Text(cocktails[index].category!),
+                  ],
+                ),
+                SizedBox(width: 20,),
+                ...generateTags(cocktails[index]) // x smontare lista in singoli elementi
+              ],
+            ),
+          ],
         ),
-        onTap: () => {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => TheCocktail(cocktail: cocktails[index])))
-        },
-      )
-    );
-  }
+      ),
+      onTap: () => {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => TheCocktail(cocktail: cocktails[index])))
+      },
+    )
+  );
+}
 
   Future searchCocktails() async {
     const domain = 'www.thecocktaildb.com';
@@ -197,21 +204,3 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 }
-
-/*
-TAGS:
-Container(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5), // Adjust padding as needed
-          decoration: BoxDecoration(
-            color: Colors.orange, // Background color of the tag
-            borderRadius: BorderRadius.circular(25), // Adjust for more or less rounded corners
-          ),
-          child: Text(
-            '${this.cocktails[index].tags![0]}',
-            style: TextStyle(
-              color: Colors.white, // Text color
-              fontSize: 10, // Adjust text size as needed
-            ),
-          ),
-        )
- */

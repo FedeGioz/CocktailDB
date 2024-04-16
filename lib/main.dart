@@ -65,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool _nightMode = false;
   bool _hasSearched = false;
 
-  TextEditingController _ctrSearch = TextEditingController();
+  final TextEditingController _ctrSearch = TextEditingController();
   List<Cocktail> cocktails = [];
 
   String selectedLanguage = "EN";
@@ -156,33 +156,32 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget buildCard(BuildContext context, int index){
-  return Container(
-    child: GestureDetector(
-      child: Card(
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(width: 30,),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(cocktails[index].name, style: TextStyle(fontWeight: FontWeight.bold),),
-                    Text(cocktails[index].category!),
-                  ],
-                ),
-                SizedBox(width: 20,),
-                ...generateTags(cocktails[index]) // x smontare lista in singoli elementi
-              ],
-            ),
-          ],
-        ),
+  return GestureDetector(
+    child: Card(
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const SizedBox(width: 30,),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(cocktails[index].name, style: const TextStyle(fontWeight: FontWeight.bold),),
+                  Text(cocktails[index].category!),
+                ],
+              ),
+
+              const SizedBox(width: 20,),
+              ...generateTags(cocktails[index]) // x smontare lista in singoli elementi
+            ],
+          ),
+        ],
       ),
-      onTap: () => {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => TheCocktail(cocktail: cocktails[index])))
-      },
-    )
+    ),
+    onTap: () => {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => TheCocktail(cocktail: cocktails[index])))
+    },
   );
 }
 

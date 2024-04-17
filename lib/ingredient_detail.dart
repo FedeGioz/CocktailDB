@@ -20,8 +20,8 @@ class _TheIngredientModalBottom extends State<TheIngredientModalBottom> {
   Ingredient? ingredient;
 
   @override
-  void initState() {
-    searchIngredient(widget.ingredientName);
+  void initState() async {
+    await searchIngredient(widget.ingredientName);
     super.initState();
   }
   @override
@@ -31,20 +31,27 @@ class _TheIngredientModalBottom extends State<TheIngredientModalBottom> {
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           title: const Text("Ingredient Detail"),
         ),
-        body: Center(child: Column(
-          children: [
-            const SizedBox(height: 10,),
-            const SizedBox(height: 5,),
-            const Text("Name", style: TextStyle(fontWeight: FontWeight.bold),),
-            Text("${this.ingredient?.name} (${this.ingredient?.type})"),
-            const SizedBox(height: 10,),
-            const Text("ABV", style: TextStyle(fontWeight: FontWeight.bold),),
-            Text("${this.ingredient?.abv}%"),
-            const SizedBox(height: 10,),
-            const Text("Description", style: TextStyle(fontWeight: FontWeight.bold),),
-            Text("${this.ingredient?.description}")
-          ],
-        ),
+        body: SingleChildScrollView(
+            child: Center(child: Column(
+              children: [
+                const SizedBox(height: 10,),
+                const SizedBox(height: 5,),
+                const Text("Name", style: TextStyle(fontWeight: FontWeight.bold),),
+                Text("${this.ingredient?.name} (${this.ingredient?.type})"),
+                const SizedBox(height: 10,),
+                const Text("ABV", style: TextStyle(fontWeight: FontWeight.bold),),
+                Text("${this.ingredient?.abv}%"),
+                const SizedBox(height: 10,),
+                const Text("Description", style: TextStyle(fontWeight: FontWeight.bold),),
+                Container(
+                    constraints: BoxConstraints(
+                      maxWidth: 500
+                    ),
+                    child: Text("${this.ingredient?.description}")
+                )
+              ],
+            ),
+            )
         ));
   }
 

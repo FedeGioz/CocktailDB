@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_randomcolor/flutter_randomcolor.dart';
+import 'cocktail.dart';
 import 'ingredient.dart';
 
 class TheIngredientModalBottom extends StatefulWidget{
@@ -12,8 +12,6 @@ class TheIngredientModalBottom extends StatefulWidget{
 }
 
 class _TheIngredientModalBottom extends State<TheIngredientModalBottom> {
-  Options options = Options(format: Format.rgb, colorType: ColorType.green);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

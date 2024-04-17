@@ -79,7 +79,7 @@ class _TheCocktail extends State<TheCocktail> {
             const Text("Name", style: TextStyle(fontWeight: FontWeight.bold),),
             const SizedBox(height: 5,),
             Text("${widget.cocktail.name} (${widget.cocktail.category})"),
-            const SizedBox(height: 10,),
+            const SizedBox(height: 20,),
             const Text(
               "Ingredients", style: TextStyle(fontWeight: FontWeight.bold),),
             const SizedBox(height: 5,),
@@ -112,15 +112,14 @@ class _TheCocktail extends State<TheCocktail> {
         child: Column(
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(width: 30,),
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(widget.cocktail.ingredients[index],
-                      style: const TextStyle(fontWeight: FontWeight.bold),),
-                    Text(widget.cocktail.measures[index]),
+                    Text("• ${widget.cocktail.ingredients[index]} (${widget.cocktail.measures[index]})",),
+                    SizedBox(height: 15,)
                   ],
                 ),
 
@@ -129,6 +128,7 @@ class _TheCocktail extends State<TheCocktail> {
             ),
           ],
         ),
+        elevation: 0, // x rimuovere border
       ),
       onTap: () =>
       {

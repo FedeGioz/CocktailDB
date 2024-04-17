@@ -1,5 +1,8 @@
+import 'package:cocktail/ingredient_detail.dart';
 import 'package:flutter/material.dart';
 import 'cocktail.dart';
+
+
 
 void main(){
   runApp(const MyApp());
@@ -129,7 +132,12 @@ class _TheCocktail extends State<TheCocktail> {
       ),
       onTap: () =>
       {
-        print("Clicked on ingredient ${widget.cocktail.ingredients[index]}")
+        showModalBottomSheet(
+          context: context,
+          builder: (BuildContext context) {
+          return TheIngredientModalBottom(ingredientName: widget.cocktail.ingredients[index]);
+          }
+      ),
       },
     );
   }
@@ -161,3 +169,4 @@ List<Widget> generateTags(Cocktail cocktail) {
   }
   return tags;
 }
+

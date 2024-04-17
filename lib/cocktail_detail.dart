@@ -37,65 +37,101 @@ class _TheCocktail extends State<TheCocktail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("Cocktail Detail"),
-      ),
-      body: SingleChildScrollView(child: Center(child: Column(
-        children: [
-          const SizedBox(height: 50,),
-          Stack(
-            children: [
-              CircleAvatar(
-                backgroundImage: NetworkImage(widget.cocktail.thumbnail!),
-                radius: 100,
-              ),
-              Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: Image.network(
-                  widget.cocktail.isAlcoholic
-                      ? "https://i.ibb.co/9whJMfN/alcholic.png"
-                      : "https://i.ibb.co/48JQrNt/non-alcolholic.png",
-                  width: 240,
-                  height: 240,
-                  fit: BoxFit.cover,
+        appBar: AppBar(
+          backgroundColor: Theme
+              .of(context)
+              .colorScheme
+              .inversePrimary,
+          title: const Text("Cocktail Detail"),
+        ),
+        body: SingleChildScrollView(child: Center(child: Column(
+          children: [
+            const SizedBox(height: 50,),
+            Stack(
+              children: [
+                CircleAvatar(
+                  backgroundImage: NetworkImage(widget.cocktail.thumbnail!),
+                  radius: 100,
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 20,),
-          Row(mainAxisAlignment: MainAxisAlignment.center,children: generateTags(widget.cocktail),),
-          const SizedBox(height: 10,),
-          const Text("Name", style: TextStyle(fontWeight: FontWeight.bold),),
-          const SizedBox(height: 5,),
-          Text("${widget.cocktail.name} (${widget.cocktail.category})"),
-          const SizedBox(height: 10,),
-          const Text("Ingredients", style: TextStyle(fontWeight: FontWeight.bold),),
-          const SizedBox(height: 5,),
-          buildIngredientsMeasuresList(),
-          const SizedBox(height: 10,),
-          const Text("Instructions", style: TextStyle(fontWeight: FontWeight.bold),),
-          const SizedBox(height: 5,),
-          Container(constraints: const BoxConstraints(maxWidth: 650),child: Text(widget.cocktail.instructions!, textAlign: TextAlign.center,),),
-          const SizedBox(height: 10,),
-          const Text("How to serve", style: TextStyle(fontWeight: FontWeight.bold),),
-          const SizedBox(height: 5,),
-          Text("Serve in ${widget.cocktail.glassType}"),
-        ],
-      ),
-    )));
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Image.network(
+                    widget.cocktail.isAlcoholic
+                        ? "https://i.ibb.co/9whJMfN/alcholic.png"
+                        : "https://i.ibb.co/48JQrNt/non-alcolholic.png",
+                    width: 240,
+                    height: 240,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20,),
+            Row(mainAxisAlignment: MainAxisAlignment.center,
+              children: generateTags(widget.cocktail),),
+            const SizedBox(height: 10,),
+            const Text("Name", style: TextStyle(fontWeight: FontWeight.bold),),
+            const SizedBox(height: 5,),
+            Text("${widget.cocktail.name} (${widget.cocktail.category})"),
+            const SizedBox(height: 10,),
+            const Text(
+              "Ingredients", style: TextStyle(fontWeight: FontWeight.bold),),
+            const SizedBox(height: 5,),
+            Container(child: ListView.builder(
+              itemCount: widget.cocktail.ingredients.length,
+              itemBuilder: (BuildContext context, int index) =>
+                  buildIngredientsMeasuresList(context, index),
+              shrinkWrap: true,
+            )),
+            const SizedBox(height: 10,),
+            const Text(
+              "Instructions", style: TextStyle(fontWeight: FontWeight.bold),),
+            const SizedBox(height: 5,),
+            Container(constraints: const BoxConstraints(maxWidth: 650),
+              child: Text(
+                widget.cocktail.instructions!, textAlign: TextAlign.center,),),
+            const SizedBox(height: 10,),
+            const Text(
+              "How to serve", style: TextStyle(fontWeight: FontWeight.bold),),
+            const SizedBox(height: 5,),
+            Text("Serve in ${widget.cocktail.glassType}"),
+          ],
+        ),
+        )));
   }
 
-  Widget buildIngredientsMeasuresList() {
-    String merged = "";
-    for(int i=0; i<widget.cocktail.ingredients.length; i++) {
-      merged += "• ${widget.cocktail.ingredients[i]} (${widget.cocktail.measures[i]})\n";
-    }
+  Widget buildIngredientsMeasuresList(BuildContext context, int index) {
+    return GestureDetector(
+      child: Card(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const SizedBox(width: 30,),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(widget.cocktail.ingredients[index],
+                      style: const TextStyle(fontWeight: FontWeight.bold),),
+                    Text(widget.cocktail.measures[index]),
+                  ],
+                ),
 
-    return Text(merged, textAlign: TextAlign.center,);
+                const SizedBox(width: 20,),
+              ],
+            ),
+          ],
+        ),
+      ),
+      onTap: () =>
+      {
+        print("Clicked on ingredient ${widget.cocktail.ingredients[index]}")
+      },
+    );
   }
 }
 

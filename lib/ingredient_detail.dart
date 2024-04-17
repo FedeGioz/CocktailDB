@@ -1,8 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_randomcolor/flutter_randomcolor.dart';
-import 'cocktail.dart';
 import 'ingredient.dart';
 
 class TheIngredientModalBottom extends StatefulWidget{
@@ -39,34 +36,6 @@ class _TheIngredientModalBottom extends State<TheIngredientModalBottom> {
           ],
         ),
         ));
-  }
-
-  List<Widget> generateTags(Cocktail cocktail) {
-    List<dynamic> colors = [Colors.red, Colors.lightGreen, Colors.amberAccent, Colors.lightBlueAccent, Colors.orangeAccent];
-    final _random = new Random();
-    List<Widget> tags = [];
-    if(cocktail.tags != null ){
-      for(String tag in cocktail.tags!){
-        if(tags.length < 5){
-          tags.add(Container(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5), // Adjust padding as needed
-            decoration: BoxDecoration(
-              color: colors[_random.nextInt(colors.length)], // Background color of the tag
-              borderRadius: BorderRadius.circular(25), // Adjust for more or less rounded corners
-            ),
-            child: Text(
-              tag,
-              style: TextStyle(
-                color: Colors.white, // Text color
-                fontSize: 10, // Adjust text size as needed
-              ),
-            ),
-          ));
-          tags.add(SizedBox(width: 5,));
-        }
-      }
-    }
-    return tags;
   }
 }
 

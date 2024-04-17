@@ -65,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool _nightMode = false;
   bool _hasSearched = false;
 
-  final TextEditingController _ctrSearch = TextEditingController();
+  TextEditingValue textEditingValue = TextEditingValue();
   List<Cocktail> cocktails = [];
 
   String selectedLanguage = "EN";
@@ -130,9 +130,17 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-              child: TextField(decoration: const InputDecoration(hintText: "Cocktail Name"), controller: _ctrSearch,),
+            Autocomplete<String>(
+              optionsBuilder: (TextEditingValue textEditingValue) async {
+                if (textEditingValue.text.isEmpty) {
+                  return [];
+                }
+                final suggestions = await fetchSuggestions(textEditingValue.text);
+                return suggestions;
+              },
+              onSelected: (String selection) {
+                textEditingValue = TextEditingValue(text: selection);
+              },
             ),
             const SizedBox(height: 10,),
             ElevatedButton(onPressed: () {
@@ -188,7 +196,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Future searchCocktails() async {
     const domain = 'www.thecocktaildb.com';
     const path = '/api/json/v1/1/search.php';
-    Map<String, dynamic> parameters = {'s': _ctrSearch.text};
+    Map<String, dynamic> parameters = {'s': textEditingValue.text};
     Uri uri = Uri.https(domain, path, parameters);
     http.get(uri).then((result) {
 
@@ -201,5 +209,19 @@ class _MyHomePageState extends State<MyHomePage> {
         this.cocktails = cocktails;
       });
     });
+  }
+
+  Future<List<String>> fetchSuggestions(String query) async {
+    final response = await http.get(Uri.parse('https://thecocktaildb.com/api/json/v1/1/search.php?s=$query'));
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      List<String> suggestions = [];
+      for (var item in data['drinks']) {
+        suggestions.add(item['strDrink']);
+      }
+      return suggestions;
+    } else {
+      throw Exception('Failed to fetch suggestions');
+    }
   }
 }

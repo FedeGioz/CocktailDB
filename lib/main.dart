@@ -66,6 +66,8 @@ class _MyHomePageState extends State<MyHomePage> {
   bool _hasSearched = false;
 
   TextEditingValue textEditingValue = TextEditingValue();
+  String _lastSelectedSuggestion = "";
+  String _errorTextAutocomplete = "";
   List<Cocktail> cocktails = [];
 
   String selectedLanguage = "EN";
@@ -130,6 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            const Text("Search for a cocktail", style: TextStyle(fontSize: 15),),
             Autocomplete<String>(
               optionsBuilder: (TextEditingValue textEditingValue) async {
                 if (textEditingValue.text.isEmpty) {
@@ -142,9 +145,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 textEditingValue = TextEditingValue(text: selection);
               },
             ),
+            Text(_errorTextAutocomplete, style: const TextStyle(color: Colors.red),),
             const SizedBox(height: 10,),
             ElevatedButton(onPressed: () {
-                searchCocktails();
+                if(textEditingValue.text.isNotEmpty && textEditingValue.text != _lastSelectedSuggestion){
+                  searchCocktails();
+                  _lastSelectedSuggestion = textEditingValue.text;
+                }
+                else{
+                  setState(() {
+                    _errorTextAutocomplete = "Please select a cocktail from the list";
+                  });
+                }
                 _hasSearched = true;
               }, child: const Text("Search"),),
             const SizedBox(height: 100,),

@@ -137,6 +137,9 @@ class _TheCocktail extends State<TheCocktail> {
           builder: (BuildContext context) {
           return TheIngredientModalBottom(ingredientName: widget.cocktail.ingredients[index]);
           },
+          constraints: BoxConstraints(
+            maxWidth: 600,
+          ),
           isScrollControlled: true,
       ),
       },

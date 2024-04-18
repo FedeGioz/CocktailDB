@@ -148,17 +148,20 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: [
             const Text("Search for a cocktail", style: TextStyle(fontSize: 15),),
-            Autocomplete<String>(
-              optionsBuilder: (TextEditingValue textEditingValue) async {
-                if (textEditingValue.text.isEmpty) {
-                  return [];
-                }
-                final suggestions = await fetchSuggestions(textEditingValue.text);
-                return suggestions;
-              },
-              onSelected: (String selection) {
-                textEditingValue = TextEditingValue(text: selection);
-              },
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: Autocomplete<String>(
+                optionsBuilder: (TextEditingValue textEditingValue) async {
+                  if (textEditingValue.text.isEmpty) {
+                    return [];
+                  }
+                  final suggestions = await fetchSuggestions(textEditingValue.text);
+                  return suggestions;
+                },
+                onSelected: (String selection) {
+                  textEditingValue = TextEditingValue(text: selection);
+                },
+              ),
             ),
             Text(_errorTextAutocomplete, style: const TextStyle(color: Colors.red),),
             const SizedBox(height: 10,),

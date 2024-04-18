@@ -100,7 +100,10 @@ class _TheCocktail extends State<TheCocktail> {
             const Text(
               "How to serve", style: TextStyle(fontWeight: FontWeight.bold),),
             const SizedBox(height: 5,),
-            Text("Serve in ${widget.cocktail.glassType}"),
+            Padding(
+                padding: EdgeInsets.only(bottom: 15),
+                child: Text("Serve in ${widget.cocktail.glassType}")
+            ),
           ],
         ),
         )));

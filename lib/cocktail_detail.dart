@@ -152,7 +152,15 @@ List<Widget> generateTags(Cocktail cocktail) {
   List<Widget> tags = [];
   if(cocktail.tags != null ){
     for(String tag in cocktail.tags!){
-      if(tags.length < 5){
+      if(tag == "IBA"){
+        tags.add(
+          Padding(
+              padding: EdgeInsets.only(right: 5) ,
+              child: Image.network("https://i.ibb.co/5BbKs1K/logo-iba.png", width: 45, height: 45,),
+          )
+        );
+      }
+      else if(tags.length < 5){
         tags.add(Container(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
           decoration: BoxDecoration(

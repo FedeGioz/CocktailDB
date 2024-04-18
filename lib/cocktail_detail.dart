@@ -83,14 +83,13 @@ class _TheCocktail extends State<TheCocktail> {
             const Text(
               "Ingredients", style: TextStyle(fontWeight: FontWeight.bold),),
             const SizedBox(height: 5,),
-            Container(child: ListView.builder(
+            Container(constraints: BoxConstraints(
+              maxWidth: getWidthFromScreenSize(context)
+            ),child: ListView.builder(
               itemCount: widget.cocktail.ingredients.length,
               itemBuilder: (BuildContext context, int index) =>
                   buildIngredientsMeasuresList(context, index),
               shrinkWrap: true,
-            ),
-            constraints: BoxConstraints(
-              maxWidth: getWidthFromScreenSize(context)
             ),
             ),
             const SizedBox(height: 10,),
@@ -105,7 +104,7 @@ class _TheCocktail extends State<TheCocktail> {
               "How to serve", style: TextStyle(fontWeight: FontWeight.bold),),
             const SizedBox(height: 5,),
             Padding(
-                padding: EdgeInsets.only(bottom: 15),
+                padding: const EdgeInsets.only(bottom: 15),
                 child: Text("Serve in ${widget.cocktail.glassType}")
             ),
           ],
@@ -116,19 +115,19 @@ class _TheCocktail extends State<TheCocktail> {
   Widget buildIngredientsMeasuresList(BuildContext context, int index) {
     return GestureDetector(
       child: Card(
+        elevation: 1,
         child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(width: 30,),
-                Padding(padding: EdgeInsets.symmetric(vertical: 12), child: Text("${widget.cocktail.ingredients[index]} (${widget.cocktail.measures[index]})",),),
+                Padding(padding: const EdgeInsets.symmetric(vertical: 12), child: Text("${widget.cocktail.ingredients[index]} (${widget.cocktail.measures[index]})",),),
                 const SizedBox(width: 20,),
               ],
             ),
           ],
-        ),
-        elevation: 1, // x rimuovere border
+        ), // x rimuovere border
       ),
       onTap: () =>
       {
@@ -137,7 +136,7 @@ class _TheCocktail extends State<TheCocktail> {
           builder: (BuildContext context) {
           return TheIngredientModalBottom(ingredientName: widget.cocktail.ingredients[index]);
           },
-          constraints: BoxConstraints(
+          constraints: const BoxConstraints(
             maxWidth: 600,
           ),
           isScrollControlled: true,
@@ -155,7 +154,7 @@ List<Widget> generateTags(Cocktail cocktail) {
       if(tag == "IBA"){
         tags.add(
           Padding(
-              padding: EdgeInsets.only(right: 5) ,
+              padding: const EdgeInsets.only(right: 5) ,
               child: Image.network("https://i.ibb.co/5BbKs1K/logo-iba.png", width: 45, height: 45,),
           )
         );

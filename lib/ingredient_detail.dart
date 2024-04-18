@@ -56,7 +56,7 @@ class _TheIngredientModalBottom extends State<TheIngredientModalBottom> {
               const Text("Description", style: TextStyle(fontWeight: FontWeight.bold),),
               Container(
                   constraints: BoxConstraints(
-                      maxWidth: getWidthFromScreenSize()
+                      maxWidth: getWidthFromScreenSize(context)
                   ),
                   child: Text("${this.ingredient?.description}")
               )
@@ -85,19 +85,21 @@ class _TheIngredientModalBottom extends State<TheIngredientModalBottom> {
 
   }
 
-  double getWidthFromScreenSize() {
 
-    double screenWidth = MediaQuery.of(context).size.width;
-    double textWidth = 0;
+}
 
-    if(screenWidth < 450){
-      textWidth = screenWidth - 50;
-    }
-    else{
-      textWidth = 540;
-    }
+double getWidthFromScreenSize(BuildContext context) {
 
-    return textWidth;
+  double screenWidth = MediaQuery.of(context).size.width;
+  double textWidth = 0;
+
+  if(screenWidth < 450){
+    textWidth = screenWidth - 50;
   }
+  else{
+    textWidth = 540;
+  }
+
+  return textWidth;
 }
 

@@ -88,7 +88,11 @@ class _TheCocktail extends State<TheCocktail> {
               itemBuilder: (BuildContext context, int index) =>
                   buildIngredientsMeasuresList(context, index),
               shrinkWrap: true,
-            )),
+            ),
+            constraints: BoxConstraints(
+              maxWidth: getWidthFromScreenSize(context)
+            ),
+            ),
             const SizedBox(height: 10,),
             const Text(
               "Instructions", style: TextStyle(fontWeight: FontWeight.bold),),
@@ -118,20 +122,13 @@ class _TheCocktail extends State<TheCocktail> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(width: 30,),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text("• ${widget.cocktail.ingredients[index]} (${widget.cocktail.measures[index]})",),
-                    SizedBox(height: 15,)
-                  ],
-                ),
-
+                Padding(padding: EdgeInsets.symmetric(vertical: 12), child: Text("${widget.cocktail.ingredients[index]} (${widget.cocktail.measures[index]})",),),
                 const SizedBox(width: 20,),
               ],
             ),
           ],
         ),
-        elevation: 0, // x rimuovere border
+        elevation: 1, // x rimuovere border
       ),
       onTap: () =>
       {

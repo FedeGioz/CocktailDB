@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:http/http.dart' as http;
 import 'cocktail.dart';
 import 'cocktail_detail.dart';
@@ -72,6 +73,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
   String selectedLanguage = "EN";
   List<String> languages = ["EN", "IT", "ES", "DE", "FR"];
+
+
+  @override
+  void initState() {
+    // Imposta lo switch della nightmode nell'impostazione giusta all'avvio
+    // (nel caso il tema di sistema sia scuro)
+
+    // Ottiene la luminosità impostata
+    Brightness brightness = SchedulerBinding.instance.platformDispatcher.platformBrightness;
+    if(brightness == Brightness.dark){
+      _nightMode = true;
+    }
+    super.initState();
+  }
 
   final MaterialStateProperty<Icon?> lightIcon =
   MaterialStateProperty.resolveWith<Icon?>(

@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'package:cocktail/favorites_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:http/http.dart' as http;
 import 'cocktail.dart';
 import 'cocktail_detail.dart';
+import 'favorites.dart';
 
 void main() {
   runApp(const MyApp());
@@ -107,6 +109,10 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: [
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+              child: IconButton(icon: const Icon(Icons.star), onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context) => const FavoriteList())); },)
+          ),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
               child: Switch(
                   thumbIcon: lightIcon,
                   value: _nightMode,
@@ -194,34 +200,52 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget buildCard(BuildContext context, int index){
-  return GestureDetector(
-    child: Card(
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const SizedBox(width: 30,),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(cocktails[index].name, style: const TextStyle(fontWeight: FontWeight.bold),),
-                  Text(cocktails[index].category!),
-                ],
-              ),
-
-              const SizedBox(width: 20,),
-              ...generateTags(cocktails[index]) // x smontare lista in singoli elementi
-            ],
+    return FutureBuilder<bool>(
+      future: Favorites.isFavorite(cocktails[index].id),
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        bool isFavorite = snapshot.data!;
+        return GestureDetector(
+          child: Card(
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const SizedBox(width: 30,),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(cocktails[index].name, style: const TextStyle(fontWeight: FontWeight.bold),),
+                        Text(cocktails[index].category!),
+                      ],
+                    ),
+                    const SizedBox(width: 20,),
+                    ...generateTags(cocktails[index]), // x smontare lista in singoli elementi,
+                    const Spacer(),
+                    IconButton(
+                      icon: Icon(isFavorite ? Icons.star : Icons.star_border),
+                      onPressed: () {
+                        setState(() {
+                          if (isFavorite) {
+                            Favorites.removeFavorite(cocktails[index].id);
+                          } else {
+                            Favorites.addFavorite(cocktails[index].id);
+                          }
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-        ],
-      ),
-    ),
-    onTap: () => {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => TheCocktail(cocktail: cocktails[index], language: selectedLanguage,)))
-    },
-  );
-}
+          onTap: () => {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => TheCocktail(cocktail: cocktails[index], language: selectedLanguage,)))
+          },
+        );
+      },
+    );
+  }
 
   Future searchCocktails() async {
     const domain = 'www.thecocktaildb.com';

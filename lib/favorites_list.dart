@@ -35,7 +35,7 @@ class _FavoriteList extends State<FavoriteList> {
               .of(context)
               .colorScheme
               .inversePrimary,
-          title: const Text("Ingredient Detail"),
+          title: const Text("Favorites"),
         ),
         body: SingleChildScrollView(
             child: Center(child: Container(
@@ -103,22 +103,5 @@ class _FavoriteList extends State<FavoriteList> {
         favorites.add(cocktails[0]);
       });
     });
-  }
-
-  double getWidthFromScreenSize(BuildContext context) {
-    double screenWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
-    double textWidth = 0;
-
-    if (screenWidth < 450) {
-      textWidth = screenWidth - 50;
-    }
-    else {
-      textWidth = 540;
-    }
-
-    return textWidth;
   }
 }

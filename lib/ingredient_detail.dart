@@ -6,7 +6,7 @@ import 'dart:convert';
 
 
 class TheIngredientModalBottom extends StatefulWidget{
-  const  TheIngredientModalBottom({super.key, required this.ingredientName, required this.language});
+  const TheIngredientModalBottom({super.key, required this.ingredientName, required this.language});
 
   final String ingredientName;
   final String language;

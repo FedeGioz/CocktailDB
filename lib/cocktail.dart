@@ -10,11 +10,14 @@ class Cocktail {
   List<String> _ingredients = [];
   List<String> _measures = [];
   String? _thumbnail;
+  bool _isTranslated = true;
 
   Cocktail(this._id, this._name, this._tags, this._category, this._isAlcoholic,
       this._glassType, this._instructions, this._ingredients, this._measures, this._thumbnail);
 
   Cocktail.fromJson(Map<String, dynamic> json, String language) {
+    if(language == "EN") language = "";
+
     _id = json['idDrink'] ?? '';
     _name = json['strDrink'] ?? '';
 
@@ -26,7 +29,7 @@ class Cocktail {
     _category = json['strCategory'];
     if(json['strAlcoholic'] == "Alcoholic") _isAlcoholic = true;
     _glassType = json['strGlass'];
-    _instructions = json['strInstructions$language'] ?? json['strInstructions'];
+    _instructions = json['strInstructions$language'] ?? delegateTranslation(json['strInstructions']);
 
     for (int i = 0; i <= 15; i++) {
       final ingredient = json['strIngredient$i'];
@@ -93,9 +96,21 @@ class Cocktail {
     _ingredients = value;
   }
 
+
+  bool get isTranslated => _isTranslated;
+
+  set isTranslated(bool value) {
+    _isTranslated = value;
+  }
+
   List<String> get measures => _measures;
 
   set measures(List<String> value) {
     _measures = value;
+  }
+
+  delegateTranslation(json) {
+    isTranslated = false;
+    return json;
   }
 }

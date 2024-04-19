@@ -1,7 +1,7 @@
 import 'package:cocktail/ingredient_detail.dart';
 import 'package:flutter/material.dart';
 import 'cocktail.dart';
-
+import 'package:translator/translator.dart';
 
 
 void main(){
@@ -21,15 +21,16 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: TheCocktail(cocktail: Cocktail("12", "name", null, "category", true, "glass", "instruction", ["Gin", "Limone"], [], "https://upload.wikimedia.org/wikipedia/commons/f/fd/Classic_Daiquiri_in_Cocktail_Glass.jpg"),),
+      home: TheCocktail(cocktail: Cocktail("12", "name", null, "category", true, "glass", "instruction", ["Gin", "Limone"], [], "https://upload.wikimedia.org/wikipedia/commons/f/fd/Classic_Daiquiri_in_Cocktail_Glass.jpg"), language: 'en',),
     );
   }
 }
 
 class TheCocktail extends StatefulWidget{
-  const TheCocktail({super.key, required this.cocktail});
+  const TheCocktail({super.key, required this.cocktail, required this.language});
 
   final Cocktail cocktail;
+  final String language;
 
   @override
   State<TheCocktail> createState() => _TheCocktail();
@@ -100,6 +101,7 @@ class _TheCocktail extends State<TheCocktail> {
               child: Text(
                 widget.cocktail.instructions!, textAlign: TextAlign.center,),),
             const SizedBox(height: 10,),
+            checkTranslation(widget.cocktail.instructions!, widget.language),
             const Text(
               "How to serve", style: TextStyle(fontWeight: FontWeight.bold),),
             const SizedBox(height: 5,),
@@ -134,7 +136,7 @@ class _TheCocktail extends State<TheCocktail> {
         showModalBottomSheet(
           context: context,
           builder: (BuildContext context) {
-          return TheIngredientModalBottom(ingredientName: widget.cocktail.ingredients[index]);
+          return TheIngredientModalBottom(ingredientName: widget.cocktail.ingredients[index], language: widget.language,);
           },
           constraints: const BoxConstraints(
             maxWidth: 600,
@@ -143,6 +145,19 @@ class _TheCocktail extends State<TheCocktail> {
       ),
       },
     );
+  }
+
+  checkTranslation(String s, String language) {
+    if(widget.cocktail.isTranslated == false){
+      GoogleTranslator translator = GoogleTranslator();
+      translator.translate(s, to: language.toLowerCase()).then((value) {
+        setState(() {
+          widget.cocktail.instructions = value.text;
+          widget.cocktail.isTranslated = true;
+        });
+      });
+    }
+    return Container();
   }
 }
 

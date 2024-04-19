@@ -1,16 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'cocktail.dart';
-import 'ingredient.dart';
+import 'package:translator/translator.dart';
 import 'ingredient.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 
 class TheIngredientModalBottom extends StatefulWidget{
-  const TheIngredientModalBottom({super.key, required this.ingredientName});
+  const TheIngredientModalBottom({super.key, required this.ingredientName, required this.language});
 
   final String ingredientName;
+  final String language;
 
   @override
   State<TheIngredientModalBottom> createState() => _TheIngredientModalBottom();
@@ -39,7 +38,7 @@ class _TheIngredientModalBottom extends State<TheIngredientModalBottom> {
 
   Widget createIngredient(){
     if(ingredient == null){
-      return Center( child: Text("No information"),);
+      return const Center( child: Text("No information"),);
     }
     else{
       return Center(
@@ -48,18 +47,19 @@ class _TheIngredientModalBottom extends State<TheIngredientModalBottom> {
               const SizedBox(height: 10,),
               const SizedBox(height: 5,),
               const Text("Name", style: TextStyle(fontWeight: FontWeight.bold),),
-              Text("${this.ingredient?.name} (${this.ingredient?.type})"),
+              Text("${ingredient?.name} (${ingredient?.type})"),
               const SizedBox(height: 10,),
               const Text("ABV", style: TextStyle(fontWeight: FontWeight.bold),),
-              Text("${this.ingredient?.abv}%"),
+              Text("${ingredient?.abv}%"),
               const SizedBox(height: 10,),
               const Text("Description", style: TextStyle(fontWeight: FontWeight.bold),),
               Container(
                   constraints: BoxConstraints(
                       maxWidth: getWidthFromScreenSize(context)
                   ),
-                  child: Text("${this.ingredient?.description}")
-              )
+                  child: Text("${ingredient?.description}")
+              ),
+              checkTranslation(ingredient!.description!, widget.language),
             ],
           ),
       );
@@ -72,7 +72,6 @@ class _TheIngredientModalBottom extends State<TheIngredientModalBottom> {
     Map<String, dynamic> parameters = {'i': ingredientName};
     Uri uri = Uri.https(domain, path, parameters);
     http.get(uri).then((result) {
-      print(result.body);
       final ingredientsData = json.decode(result.body);
       final ingredientDataItem = ingredientsData['ingredients'];
       List<Ingredient> ingredient = ingredientDataItem.map<Ingredient>((json) =>
@@ -80,12 +79,20 @@ class _TheIngredientModalBottom extends State<TheIngredientModalBottom> {
       setState(() {
         this.ingredient = ingredient[0];
       });
-
     });
-
   }
 
-
+  checkTranslation(String s, String language) {
+    if(language != "EN"){
+      GoogleTranslator translator = GoogleTranslator();
+      translator.translate(s, to: language.toLowerCase()).then((value) {
+        setState(() {
+          ingredient?.description = value.text;
+        });
+      });
+    }
+    return Container();
+  }
 }
 
 double getWidthFromScreenSize(BuildContext context) {

@@ -66,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool _nightMode = false;
   bool _hasSearched = false;
 
-  TextEditingValue textEditingValue = TextEditingValue();
+  TextEditingValue textEditingValue = const TextEditingValue();
   String _lastSelectedSuggestion = "";
   String _errorTextAutocomplete = "";
   List<Cocktail> cocktails = [];
@@ -149,7 +149,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             const Text("Search for a cocktail", style: TextStyle(fontSize: 15),),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Autocomplete<String>(
                 optionsBuilder: (TextEditingValue textEditingValue) async {
                   if (textEditingValue.text.isEmpty) {
@@ -218,7 +218,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     ),
     onTap: () => {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => TheCocktail(cocktail: cocktails[index])))
+      Navigator.push(context, MaterialPageRoute(builder: (context) => TheCocktail(cocktail: cocktails[index], language: selectedLanguage,)))
     },
   );
 }

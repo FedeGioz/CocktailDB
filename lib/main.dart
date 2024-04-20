@@ -203,7 +203,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return FutureBuilder<bool>(
       future: Favorites.isFavorite(cocktails[index].id),
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-        bool isFavorite = snapshot.data!;
+        bool isFavorite = snapshot.data ?? false;
         return GestureDetector(
           child: Card(
             child: Column(

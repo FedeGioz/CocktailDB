@@ -15,17 +15,17 @@ class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<MyApp> createState() => MyAppState();
 
   // Creazione di un metodo of()
   // Riceve uno context di una classe stato
   // Ritorna lo stato "antenato" più vicino del tipo indicato
   // Questo metodo lo usiamo per accedere al metodo changeTheme() di _MyAppState da _MyHomePageState (due stati differenti)
-  static _MyAppState of(BuildContext context) =>
-      context.findAncestorStateOfType<_MyAppState>()!;
+  static MyAppState of(BuildContext context) =>
+      context.findAncestorStateOfType<MyAppState>()!;
 }
 
-class _MyAppState extends State<MyApp> {
+class MyAppState extends State<MyApp> {
   ThemeMode _themeMode = ThemeMode.system;
 
   @override
@@ -110,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
         actions: [
           Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+              padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
               child: IconButton(icon: const Icon(Icons.star), onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context) => const FavoriteList())); },)
           ),
           Padding(
@@ -155,7 +155,10 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const Text("Search for a cocktail", style: TextStyle(fontSize: 15),),
+            const Padding(
+              padding: EdgeInsets.only(top: 8),
+              child: Text("Search for a cocktail", style: TextStyle(fontSize: 15),),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Autocomplete<String>(
@@ -194,7 +197,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 }
                 _hasSearched = true;
               }, child: const Text("Search"),),
-            const SizedBox(height: 100,),
+            const SizedBox(height: 50,),
             Container(
               constraints: const BoxConstraints(maxWidth: 1000),
               child: ListView.builder(

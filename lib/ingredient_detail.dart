@@ -62,7 +62,7 @@ class _TheIngredientModalBottom extends State<TheIngredientModalBottom> {
                     child: Text("${ingredient?.description}")
                   )
               ),
-              checkTranslation(ingredient!.description!, widget.language),
+              checkTranslation(ingredient!.description ?? "", widget.language),
             ],
           ),
       );

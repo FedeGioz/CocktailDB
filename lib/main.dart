@@ -110,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
         actions: [
           Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+              padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
               child: IconButton(icon: const Icon(Icons.star), onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context) => const FavoriteList())); },)
           ),
           Padding(
@@ -155,7 +155,10 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const Text("Search for a cocktail", style: TextStyle(fontSize: 15),),
+            const Padding(
+              padding: EdgeInsets.only(top: 8),
+              child: Text("Search for a cocktail", style: TextStyle(fontSize: 15),),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Autocomplete<String>(
@@ -194,7 +197,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 }
                 _hasSearched = true;
               }, child: const Text("Search"),),
-            const SizedBox(height: 100,),
+            const SizedBox(height: 50,),
             Container(
               constraints: const BoxConstraints(maxWidth: 1000),
               child: ListView.builder(

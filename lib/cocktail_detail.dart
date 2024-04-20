@@ -98,7 +98,7 @@ class _TheCocktail extends State<TheCocktail> {
             const Text(
               "Instructions", style: TextStyle(fontWeight: FontWeight.bold),),
             const SizedBox(height: 5,),
-            Container(constraints: const BoxConstraints(maxWidth: 650),
+            Container(constraints: BoxConstraints(maxWidth: getWidthFromScreenSize(context)),
               child: Text(
                 widget.cocktail.instructions!, textAlign: TextAlign.center,),),
             const SizedBox(height: 10,),

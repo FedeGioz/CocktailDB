@@ -72,6 +72,8 @@ class _MyHomePageState extends State<MyHomePage> {
   String _lastSelectedSuggestion = "";
   String _errorTextAutocomplete = "";
   List<Cocktail> cocktails = [];
+  // stringa di input nella ricerca del cocktail
+  String _inputString = "";
 
   String selectedLanguage = "EN";
   List<String> languages = ["EN", "IT", "ES", "DE", "FR"];
@@ -162,6 +164,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     return [];
                   }
                   final suggestions = await fetchSuggestions(textEditingValue.text);
+                  // tiene traccia del valore che è effettivamente scritto nel form
+                  _inputString = textEditingValue.text;
                   return suggestions;
                 },
                 onSelected: (String selection) {
@@ -172,14 +176,21 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(_errorTextAutocomplete, style: const TextStyle(color: Colors.red),),
             const SizedBox(height: 10,),
             ElevatedButton(onPressed: () {
+              // Seconda condizione: Se il cocktail SELEZIONATO è diverso dall'ultimo selezionato
                 if(textEditingValue.text.isNotEmpty && textEditingValue.text != _lastSelectedSuggestion){
                   searchCocktails();
                   _lastSelectedSuggestion = textEditingValue.text;
+                  _errorTextAutocomplete = "";
                 }
                 else{
                   setState(() {
                     _errorTextAutocomplete = "Please select a cocktail from the list";
                   });
+                }
+
+                // Se il cocktail SCRITTO è uguale all'ultimo selezionato
+                if(_inputString == _lastSelectedSuggestion){
+                  _errorTextAutocomplete = "";
                 }
                 _hasSearched = true;
               }, child: const Text("Search"),),

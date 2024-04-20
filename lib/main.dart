@@ -232,7 +232,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ],
                     ),
                     const SizedBox(width: 20,),
-                    ...generateTags(cocktails[index], false), // x smontare lista in singoli elementi,
+                    ...generateTags(cocktails[index], getScreenType(context)), // x smontare lista in singoli elementi,
                     const Spacer(),
                     IconButton(
                       icon: Icon(isFavorite ? Icons.star : Icons.star_border),

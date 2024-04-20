@@ -66,10 +66,12 @@ class _FavoriteList extends State<FavoriteList> {
                   ],
                 ),
                 const SizedBox(width: 20,),
-                ...generateTags(favorites[index], false), // x smontare lista in singoli elementi,
+                // alla getScreenType passiamo il contesto della superclasse perché solo in quel contesto
+                // viene rilevata la grandezza dello schermo che interessa
+                ...generateTags(favorites[index], getScreenType(super.context)), // x smontare lista in singoli elementi,
                 const Spacer(),
                 IconButton(
-                  icon: Icon(Icons.star),
+                  icon: const Icon(Icons.star),
                   onPressed: () {
                     setState(() {
                       Favorites.removeFavorite(favorites[index].id);
@@ -103,5 +105,17 @@ class _FavoriteList extends State<FavoriteList> {
         favorites.add(cocktails[0]);
       });
     });
+  }
+
+}
+bool getScreenType(BuildContext context) {
+
+  double screenWidth = MediaQuery.of(context).size.width;
+
+  if(screenWidth < 500){
+    return false;
+  }
+  else{
+    return true;
   }
 }

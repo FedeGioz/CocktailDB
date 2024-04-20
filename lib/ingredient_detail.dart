@@ -57,7 +57,10 @@ class _TheIngredientModalBottom extends State<TheIngredientModalBottom> {
                   constraints: BoxConstraints(
                       maxWidth: getWidthFromScreenSize(context)
                   ),
-                  child: Text("${ingredient?.description}")
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 15),
+                    child: Text("${ingredient?.description}")
+                  )
               ),
               checkTranslation(ingredient!.description!, widget.language),
             ],

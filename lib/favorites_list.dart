@@ -66,7 +66,7 @@ class _FavoriteList extends State<FavoriteList> {
                   ],
                 ),
                 const SizedBox(width: 20,),
-                ...generateTags(favorites[index]), // x smontare lista in singoli elementi,
+                ...generateTags(favorites[index], false), // x smontare lista in singoli elementi,
                 const Spacer(),
                 IconButton(
                   icon: Icon(Icons.star),

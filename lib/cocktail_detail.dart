@@ -75,7 +75,7 @@ class _TheCocktail extends State<TheCocktail> {
             ),
             const SizedBox(height: 20,),
             Row(mainAxisAlignment: MainAxisAlignment.center,
-              children: generateTags(widget.cocktail),),
+              children: generateTags(widget.cocktail, true),),
             const SizedBox(height: 10,),
             const Text("Name", style: TextStyle(fontWeight: FontWeight.bold),),
             const SizedBox(height: 5,),
@@ -91,6 +91,7 @@ class _TheCocktail extends State<TheCocktail> {
               itemBuilder: (BuildContext context, int index) =>
                   buildIngredientsMeasuresList(context, index),
               shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics()
             ),
             ),
             const SizedBox(height: 10,),
@@ -161,36 +162,57 @@ class _TheCocktail extends State<TheCocktail> {
   }
 }
 
-List<Widget> generateTags(Cocktail cocktail) {
+// il parametro complete serve per indicare se la lista di tag deve essere completa o no
+List<Widget> generateTags(Cocktail cocktail, bool complete) {
   List<dynamic> colors = [Colors.red, Colors.lightGreen, Colors.amberAccent, Colors.lightBlueAccent, Colors.orangeAccent];
   List<Widget> tags = [];
-  if(cocktail.tags != null ){
-    for(String tag in cocktail.tags!){
-      if(tag == "IBA"){
-        tags.add(
-          Padding(
-              padding: const EdgeInsets.only(right: 5) ,
-              child: Image.network("https://i.ibb.co/5BbKs1K/logo-iba.png", width: 45, height: 45,),
-          )
-        );
+  if(cocktail.tags != null){
+      for(String tag in cocktail.tags!){
+        if(complete == true || tags.isEmpty){
+          if(tag == "IBA"){
+            tags.add(
+                Padding(
+                  padding: const EdgeInsets.only(right: 5) ,
+                  child: Image.network("https://i.ibb.co/5BbKs1K/logo-iba.png", width: 45, height: 45,),
+                )
+            );
+          }
+          else if(tags.length < 5){
+            tags.add(Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              decoration: BoxDecoration(
+                color: colors[tag.length%colors.length],
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: Text(
+                tag,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                ),
+              ),
+            ));
+            tags.add(const SizedBox(width: 5,));
+          }
+        }
       }
-      else if(tags.length < 5){
-        tags.add(Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-          decoration: BoxDecoration(
-            color: colors[tag.length%colors.length],
-            borderRadius: BorderRadius.circular(25),
+
+    if(complete == false && cocktail.tags!.length > 1){
+      tags.add(Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+        decoration: BoxDecoration(
+          color: Colors.grey,
+          borderRadius: BorderRadius.circular(25),
+        ),
+        child: const Text(
+          "...",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 10,
           ),
-          child: Text(
-            tag,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 10,
-            ),
-          ),
-        ));
-        tags.add(const SizedBox(width: 5,));
-      }
+        ),
+      ));
+      tags.add(const SizedBox(width: 5,));
     }
   }
   return tags;

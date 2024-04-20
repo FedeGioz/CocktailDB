@@ -201,6 +201,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 itemCount: cocktails.length,
                 itemBuilder: (BuildContext context, int index) => buildCard(context, index),
                 shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
               ),
             ),
             const SizedBox(height: 100,),
@@ -231,7 +232,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ],
                     ),
                     const SizedBox(width: 20,),
-                    ...generateTags(cocktails[index]), // x smontare lista in singoli elementi,
+                    ...generateTags(cocktails[index], false), // x smontare lista in singoli elementi,
                     const Spacer(),
                     IconButton(
                       icon: Icon(isFavorite ? Icons.star : Icons.star_border),

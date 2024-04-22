@@ -11,7 +11,7 @@ class Ingredient {
 
     _id = map['idIngredient'];
     _name = map['strIngredient'];
-    _description = map['strDescription'];
+    _description = map['strDescription'] ?? "No description available.";
     _type = map['strType'];
     if(map['strAlcohol'] == "Yes") _isAlcoholic = true;
     _abv = double.parse(map['strABV']);

@@ -285,7 +285,7 @@ class _MyHomePageState extends State<MyHomePage> {
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       List<String> suggestions = [];
-      for (var item in data['drinks']) {
+      for (var item in data['drinks'] ?? "") {
         suggestions.add(item['strDrink']);
       }
       return suggestions;

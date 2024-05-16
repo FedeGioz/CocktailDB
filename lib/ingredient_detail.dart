@@ -26,6 +26,14 @@ class _TheIngredientModalBottom extends State<TheIngredientModalBottom> {
   }
   @override
   Widget build(BuildContext context) {
+    return SizedBox(
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: SingleChildScrollView(
+          child: createIngredient(),
+        ),
+      ),
+    );
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,

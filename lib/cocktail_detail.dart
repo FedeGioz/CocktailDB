@@ -136,6 +136,8 @@ class _TheCocktail extends State<TheCocktail> {
       {
         showModalBottomSheet(
           context: context,
+          showDragHandle: true,
+          enableDrag: true,
           builder: (BuildContext context) {
           return TheIngredientModalBottom(ingredientName: widget.cocktail.ingredients[index], language: widget.language,);
           },
